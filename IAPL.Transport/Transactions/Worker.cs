@@ -4877,7 +4877,9 @@ namespace IAPL.Transport.Transactions
         private string GetJobCronSchedule(DataRow row)
         {
             string cronSchedule = "*,*,*,?,*,*,*";
-            string[] arrValues = cronSchedule.Split(',');
+            string[] arrValues  = cronSchedule.Split(',');
+            string mSetInterval = Convert.ToString((Object)row["MsetInterval"]);
+
             StringBuilder sb = new StringBuilder();
             if (Convert.ToInt32((Object)row["MsgMonday"]) == 1)
             {
@@ -4912,7 +4914,7 @@ namespace IAPL.Transport.Transactions
             DateTime endTime = (DateTime)DateTime.Parse(IAPL.Transport.Util.CommonTools.ValueToString((Object)row["MsetEndTime"]));            
 
             arrValues[0] = "0"; //seconds
-            arrValues[1] = "0/1"; //minutes
+            arrValues[1] = "0/" + mSetInterval; //minutes
             arrValues[2] = startTime.Hour.ToString() + "-" + endTime.Hour.ToString(); //hours
             arrValues[3] = "?"; //day of month
             arrValues[4] = "*"; //month
